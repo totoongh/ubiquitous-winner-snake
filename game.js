@@ -22,7 +22,21 @@ function update() {
         snake.body.pop();
     }
 
-    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.body.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
+    // Wrap the snake's head around the board
+    if (head.x < 0) {
+        head.x = canvas.width - 10;
+    } else if (head.x >= canvas.width) {
+        head.x = 0;
+    }
+
+    if (head.y < 0) {
+        head.y = canvas.height - 10;
+    } else if (head.y >= canvas.height) {
+        head.y = 0;
+    }
+
+    // Remove the condition that ends the game when the snake hits the wall
+    if (snake.body.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
         alert('Game Over');
         snake.body = [{ x: 10, y: 10 }];
         snake.direction = { x: 1, y: 0 };
